@@ -3,17 +3,16 @@ require_once 'conectaBD.php';
 // Definir o BD (e a tabela)
 // Conectar ao BD (com o PHP)
 
-if (!empty($_POST)) {
+if (!empty($_POST)) { //se os arquivos do post nao estiver vazio ele executa o try
     // Está chegando dados por POST e então posso tentar inserir no banco
     // Obter as informações do formulário ($_POST)
     try {
         // Preparar as informações
         // Montar a SQL (pgsql)
-        $sql = "INSERT INTO usuario
-
-(nome, data_nascimento, telefone, email, senha)
-VALUES
-(:nome, :dataNascimento, :telefone, :email, :senha)";
+        $sql = "INSERT INTO usuarios
+        (nome, data_nascimento, telefone, email, senha)
+        VALUES
+        (:nome, :dataNascimento, :telefone, :email, :senha)";
         // Preparar a SQL (pdo)
         $stmt = $pdo->prepare($sql);
         // Definir/organizar os dados p/ SQL
