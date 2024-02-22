@@ -8,10 +8,10 @@
 </head>
 <?php
 session_start();
-if (empty($_SESSION)) {
+if (empty($_SESSION)) {//se eu tentar ver o conteudo da pagina, ele vai pedir para efetuar a conexão caso nao esteja conectado
     // Significa que as variáveis de SESSAO não foram definidas.
     // Não poderia acessar aqui.
-    header("Location: index.php?msgErro=Você precisa se autenticar no sistema.");
+    header("Location: index.php?msgErro=Você precisa se autenticar no sistema."); 
     die();
 }
 ?>

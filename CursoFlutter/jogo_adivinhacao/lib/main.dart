@@ -22,7 +22,7 @@ class Adivinhacao extends StatefulWidget {
 class _AdivinhacaoState extends State<Adivinhacao> {
   TextEditingController _controllerTentativa = TextEditingController();
   String _mensagem = '';
-  int _numeroSecreto;
+  late int _numeroSecreto;
   bool _acertou = false;
 
   void _iniciarJogo(){
@@ -33,7 +33,7 @@ class _AdivinhacaoState extends State<Adivinhacao> {
     });
   }
   void _verificarTentativa(){
-    int tentativa = int.tryParse(_controllerTentativa.text);
+    int? tentativa = int.tryParse(_controllerTentativa.text);
 
     if(tentativa!=null){
       setState(() {
