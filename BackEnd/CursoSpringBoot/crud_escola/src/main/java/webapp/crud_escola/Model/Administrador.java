@@ -6,13 +6,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class VerificaCadastroAdm implements Serializable{
-    //atributos
+public class Administrador implements Serializable{
+    //atributos (colunas da Tabela)
     @Id
     private String cpf;
     private String nome;
+    private String email;
+    private String senha;
 
-    //métodos
+    //métodos getters and setters
     public String getCpf() {
         return cpf;
     }
@@ -25,5 +27,20 @@ public class VerificaCadastroAdm implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     
+
+
 }
