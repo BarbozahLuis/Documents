@@ -5,7 +5,7 @@ import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@Entity //criar a 
+@Entity
 public class Administrador implements Serializable{
     //atributos
     @Id
@@ -13,8 +13,7 @@ public class Administrador implements Serializable{
     private String nome;
     private String email;
     private String senha;
-
-    //atributos
+    //métodos
     public String getCpf() {
         return cpf;
     }
@@ -39,6 +38,5 @@ public class Administrador implements Serializable{
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
     
 }

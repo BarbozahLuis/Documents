@@ -6,13 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class VerificaCadastroAdm implements Serializable{
+public class VerificaCadastroAdm implements Serializable {
     //atributos
     @Id
     private String cpf;
     private String nome;
-
-    //metodos
+    //métodos
     public String getCpf() {
         return cpf;
     }
