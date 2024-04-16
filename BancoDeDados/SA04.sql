@@ -120,12 +120,12 @@ WHERE Status = 'EM ANDAMENTO';
 
 -- 6. Listar nome, data e total do pedido dos ultimos 30 dias
 
-SELECT c.Nome AS Nome_Cliente,
+SELECT c.Nome,
        p.Data_Pedido,
        p.Total
-FROM Pedidos p
-JOIN Clientes c ON p.ID_Clientes = c.ID
-WHERE p.Data_Pedido >= CURRENT_DATE - INTERVAL '30 days';
+FROM Clientes c
+JOIN Pedidos p ON c.ID = p.ID_Clientes
+WHERE p.Data_Pedido >= CURRENT_DATE - 400;
 
 -- EXERCICIO 2
 -- DDL (Data Definition Language) Exercícios:
@@ -133,21 +133,20 @@ WHERE p.Data_Pedido >= CURRENT_DATE - INTERVAL '30 days';
 CREATE DATABASE DB_SA04_EX2;
 
 -- 1. criando a tabela Produtos
+
 CREATE TABLE Produtos(ID SERIAL PRIMARY KEY,
-                        Nome VARCHAR(30) NOT NULL,
-                         Descricao VARCHAR(30) NOT NULL,
-                          Preco DECIMAL(10,2));
+                                        Nome VARCHAR(30) NOT NULL,
+                                                         Descricao VARCHAR(30) NOT NULL,
+                                                                               Preco DECIMAL(10,2));
 
 -- 2. adicionar restrição na tabela para preço para o valor nao ficar negativo
-ALTER TABLE Produtos
-ADD CONSTRAINT CHK_Preco_Positive CHECK (Preco >= 0);
+
+ALTER TABLE Produtos ADD CONSTRAINT CHK_Preco_Positive CHECK (Preco >= 0);
 
 -- 3. criar tabela Pedidos
+
 CREATE TABLE Pedidos(ID SERIAL PRIMARY KEY,
-                        DATA_PEDIDO DATE NOT NULL,
-                        Valor DECIMAL(10,2),
-                        Status VARCHAR(30)
-                        );
-                          
-    
+                                       DATA_PEDIDO DATE NOT NULL,
+                                                        Valor DECIMAL(10,2),
+                                                              Status VARCHAR(30) );
 
