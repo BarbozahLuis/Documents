@@ -17,7 +17,7 @@ class PaginaLogin extends StatefulWidget {
 // Estado da página de login
 class _PaginaLoginState extends State<PaginaLogin> {
   final _formKey = GlobalKey<FormState>(); // Chave global para o formulário
-  TextEditingController _nomeController = TextEditingController(); // Controller para o campo de nome
+  TextEditingController _emailController = TextEditingController(); // Controller para o campo de nome
   TextEditingController _senhaController = TextEditingController(); // Controller para o campo de senha
   bool _loading = false; // Variável para controlar o estado de carregamento
 
@@ -46,14 +46,14 @@ class _PaginaLoginState extends State<PaginaLogin> {
                 SizedBox(height: 20), // Espaçamento
                 // Campo de entrada para o nome do usuário com ícone de usuário
                 TextFormField(
-                  controller: _nomeController,
+                  controller: _emailController,
                   decoration: InputDecoration(
-                    labelText: 'Nome',
+                    labelText: 'Email',
                     prefixIcon: Icon(Icons.person), // Ícone de usuário
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Por favor, insira seu nome';
+                      return 'Por favor, insira seu Email';
                     }
                     return null;
                   },
@@ -104,7 +104,7 @@ class _PaginaLoginState extends State<PaginaLogin> {
   // Método para fazer login
   void _login() async {
     if (_formKey.currentState!.validate()) { // Valida os campos do formulário
-      String nome = _nomeController.text; // Obtém o nome do campo de texto
+      String email= _emailController.text; // Obtém o nome do campo de texto
       String senha = _senhaController.text; // Obtém a senha do campo de texto
 
       setState(() {
@@ -113,26 +113,26 @@ class _PaginaLoginState extends State<PaginaLogin> {
 
       BancoDadosCrud bancoDados = BancoDadosCrud(); // Instancia o controlador do banco de dados
       try {
-        Usuario? usuario = await bancoDados.getUsuario(nome, senha); // Obtém o usuário do banco de dados
+        Usuario? usuario = await bancoDados.getUsuario(email, senha); // Obtém o usuário do banco de dados
         if (usuario != null) {
-          if (usuario.nome == nome) { // Verifica se o nome do usuário coincide
+          if (usuario.email == email) { // Verifica se o nome do usuário coincide
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PaginaLista(), // Navega até a página da lista após o login bem-sucedido
+                builder: (context) => PaginaLista(user: email), // Navega até a página da lista após o login bem-sucedido
               ),
               
             );
           } else {
-            // Exibe uma mensagem de erro se o nome ou a senha estiverem incorretos
+            // Exibe uma mensagem de erro se o email ou a senha estiverem incorretos
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Nome ou senha incorretos'),
+              content: Text('Email ou senha incorretos'),
             ));
           }
         }
       } catch (e) {
         print('Erro durante o login: $e');
-        // Exibe uma mensagem de erro se ocorrer um problema durante o login
+        //  erro se ocorrer um problema durante o login
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Erro durante o login. Tente novamente mais tarde.'),
         ));

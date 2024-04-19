@@ -83,4 +83,22 @@ class BancoDadosCrud {
       return false;
     }
   }
+
+  Future<bool> existsEmail(String email) async {
+    try {
+      final Database db = await _getDatabase();
+      final List<Map<String, dynamic>> maps = await db.query(User_Tabela,
+          where: 'email = ?',
+          whereArgs: [email]); // Consulta usuário na tabela
+
+      if (maps.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      print(ex);
+      return false;
+    }
+  }
 }
