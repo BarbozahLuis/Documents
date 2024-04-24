@@ -23,5 +23,7 @@ class ProdutoController{
     _produtos.addAll(jsonList.map((e) => Produto.fromJson(e)));
   }
 
+  adicionarProduto() {}
+
 }
 
