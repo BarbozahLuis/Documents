@@ -1,0 +1,4 @@
+- homepage()=> lista de produtos
+    -adicionar novos produtos
+        -modelos (Produtos)
+        -Controller (Produtos)

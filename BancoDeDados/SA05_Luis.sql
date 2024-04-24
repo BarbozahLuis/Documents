@@ -151,6 +151,7 @@ INSERT INTO Vendas (ID_Produto, ID_Clientes, Data_Venda, Quantidade) VALUES
 ('12', '2', '2024-01-30','3'),
 ('7', '5', '2024-02-29','4');
 
+
 UPDATE Produtos SET Preco = 60.00 WHERE ID = 10;
 
 UPDATE Funcionarios SET Cargo = 'Atendente' WHERE ID = 3;
