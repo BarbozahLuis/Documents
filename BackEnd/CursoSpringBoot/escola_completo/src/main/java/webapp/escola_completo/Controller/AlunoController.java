@@ -57,7 +57,7 @@ public class AlunoController {
         }
         return mv;
     }
-    // acesso a pagina interna do admistrador
+    //acesso a pagina interna do admistrador
     @GetMapping("/interna-aluno")
     public ModelAndView acessoPageInternaAluno(RedirectAttributes attributes) {
         ModelAndView mv = new ModelAndView("interna/interna-aluno");

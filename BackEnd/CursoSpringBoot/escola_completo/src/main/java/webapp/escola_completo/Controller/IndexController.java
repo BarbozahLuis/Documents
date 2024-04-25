@@ -35,7 +35,18 @@ public class IndexController {
     public String acessoLoginProfessor(){
         return "login/login-prof";
     }
-    
+    // @GetMapping("/interna-adm")
+    // public String acessoInternaAdm(){
+    //     return "interna/interna-adm";
+    // }
+    // @GetMapping("/interna-aluno")
+    // public String acessoInternaAluno(){
+    //     return "interna/interna-aluno";
+    // }
+    // @GetMapping("/interna-prof")
+    // public String acessoInternaProfessor(){
+    //     return "interna/interna-prof";
+    // }
     
     
     

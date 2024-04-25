@@ -11,6 +11,8 @@ import webapp.escola_completo.Repository.AdministradorRepository;
 import webapp.escola_completo.Repository.VerificaCadastroAdmRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class AdministradorController {
@@ -81,6 +83,14 @@ public class AdministradorController {
         }
         return mv;
     }
+
+    //método criado para efetuar o logout da tela de login
+    @PostMapping("/logout-adm")
+    public ModelAndView logoutAdm() {
+        acessoInternoAdm = false; // Definir o estado de login como falso
+        return new ModelAndView("redirect:/login-adm");
+    }
+    
     // acesso a pagina interna do admistrador
     @GetMapping("/interna-adm")
     public ModelAndView acessoPageInternaAdm(RedirectAttributes attributes) {
@@ -97,6 +107,58 @@ public class AdministradorController {
 
         return mv;
     }
+
+    // acesso a pagina de cadastro do aluno pelo login do adm
+    @GetMapping("/cadastro_aluno")
+    public ModelAndView acessoPageCadastroAluno(RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("cadastro/cadastro_aluno");
+        if (acessoInternoAdm) {
+            System.out.println("Acesso Permitido");
+        } else {
+            String mensagem = "Acesso não Permitido - faça Login";
+            System.out.println(mensagem);
+            mv.setViewName("redirect:/cadastro_aluno");
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
+        }
+
+        return mv;
+    }
+
+    //acesso a pagina de cadastro do proefssor pelo login do adm
+    @GetMapping("/cadastro_professor")
+    public ModelAndView acessoPageCadastroProfessor(RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("cadastro/cadastro_professor");
+        if (acessoInternoAdm) {
+            System.out.println("Acesso Permitido");
+        } else {
+            String mensagem = "Acesso não Permitido - faça Login";
+            System.out.println(mensagem);
+            mv.setViewName("redirect:/cadastro_professor");
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
+        }
+
+        return mv;
+    }
+
+    //mapping para voltar para tela anterior
+    @GetMapping("/volta-interna-adm")
+    public ModelAndView acessoPageVoltaInternaAdm(RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("interna/interna-adm");
+        if (acessoInternoAdm) {
+            System.out.println("Acesso Permitido");
+        } else {
+            String mensagem = "Acesso não Permitido - faça Login";
+            System.out.println(mensagem);
+            mv.setViewName("redirect:/interna-adm");
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
+        }
+
+        return mv;
+    }
+
 
   
     
