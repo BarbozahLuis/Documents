@@ -1,0 +1,13 @@
+- model
+    Livros(Titulo do Livros
+        Autor do Livros
+        Sinopse do Livros
+        Categoria do Livros
+        ISBN do livros)
+
+- controller
+    LivroController
+    -loadLivros(json)
+    -adicionar novos livros
+
+    

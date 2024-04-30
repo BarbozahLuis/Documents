@@ -1,0 +1,26 @@
+[
+{
+    "titulo": "O fim da eternida",
+    "autor": "Isaac Asimov",
+    "sinopse": "O fim da eternidade é um livro de ficção científica",
+    "categoria":"ficção cientíca",
+    "isbn": "9788521603065"
+},
+
+{
+    "titulo": "o morro dos ventos uivantes",
+    "autor": "Emily Bronte",
+    "sinopse": "o morro dos ventos uivantes é um livro é um livro de ficção científica",
+    "categoria":"terror",
+    "isbn": "9788521603085"
+},
+
+{
+    "titulo": "Mémorias Póstuma de Brás cubas",
+    "autor": "Machado de Assis",
+    "sinopse": "Mémorias Póstuma de Brás cubas é um livro de ficção cientifica",
+    "categoria":"romance realista",
+    "isbn": "9788521603075"
+}
+
+]
