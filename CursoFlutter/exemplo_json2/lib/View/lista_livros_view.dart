@@ -1,4 +1,5 @@
 import 'package:exemplo_json2/Controller/livros_controller.dart';
+import 'package:exemplo_json2/View/info_livro_view.dart';
 import 'package:flutter/material.dart';
 
 class LivrosPage extends StatefulWidget {
@@ -9,7 +10,7 @@ class LivrosPage extends StatefulWidget {
 }
 
 class _LivrosPageState extends State<LivrosPage> {
-  LivroController controller = new LivroController();
+  LivroController controller = LivroController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,26 +22,21 @@ class _LivrosPageState extends State<LivrosPage> {
         padding: EdgeInsets.all(12),
         child: Expanded(
             child: FutureBuilder(
-          future: controller.loadLivros(),
-          builder: (context, snapshot) {
-            if (controller.livros.isEmpty) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return ListView.builder(
-                  itemCount: controller.livros.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(controller.livros[index].titulo),
-                      subtitle: Text(controller.livros[index].autor),
-                      onTap: () =>Navigatior.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => )
-                      ),
-                    );
-                  });
-            }
-          },
-        )),
+                future: controller.loadLivros(),
+                builder: (context, snapshot) {
+                  if (controller.livros.isEmpty) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return ListView.builder(
+                        itemCount: controller.livros.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(controller.livros[index].titulo),
+                            subtitle: Text(controller.livros[index].autor),
+                          );
+                        });
+                  }
+                })),
       ),
     );
   }

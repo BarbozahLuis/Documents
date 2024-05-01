@@ -4,7 +4,8 @@
     "autor": "Isaac Asimov",
     "sinopse": "O fim da eternidade é um livro de ficção científica",
     "categoria":"ficção cientíca",
-    "isbn": "9788521603065"
+    "isbn": 9788521603065,
+    "capa": "assets/img/img02.jpg"
 },
 
 {
@@ -12,7 +13,8 @@
     "autor": "Emily Bronte",
     "sinopse": "o morro dos ventos uivantes é um livro é um livro de ficção científica",
     "categoria":"terror",
-    "isbn": "9788521603085"
+    "isbn": 9788521603085,
+    "capa": "assets/img/img03.jpg"
 },
 
 {
@@ -20,7 +22,8 @@
     "autor": "Machado de Assis",
     "sinopse": "Mémorias Póstuma de Brás cubas é um livro de ficção cientifica",
     "categoria":"romance realista",
-    "isbn": "9788521603075"
+    "isbn": 9788521603075,
+    "capa": "assets/img/img04.jpg"
 }
 
 ]
