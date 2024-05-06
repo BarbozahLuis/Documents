@@ -7,7 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import webapp.escola_completo.Model.Administrador;
+import webapp.escola_completo.Model.Aluno;
 import webapp.escola_completo.Repository.AdministradorRepository;
+import webapp.escola_completo.Repository.AlunoRepository;
 import webapp.escola_completo.Repository.VerificaCadastroAdmRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,9 @@ public class AdministradorController {
 
     @Autowired
     private VerificaCadastroAdmRepository vcar;
+
+    @Autowired
+    private AlunoRepository al;
 
     // métodos
     //validando cadastro
@@ -158,8 +163,29 @@ public class AdministradorController {
 
         return mv;
     }
+    // cadastrar aluno dentro da tela administrador
+    @PostMapping("cadastrar-Aluno")
+    public ModelAndView cadastroAlunoBD(Aluno aluno) {
 
+        boolean verificaAluno = al.existsById(aluno.getCpf());
 
+        ModelAndView mv = new ModelAndView("login/login-adm");
+
+        if (verificaAluno) {
+            al.save(aluno);
+            String mensagem = "Cadastro Realizado com sucesso";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "verde");
+        } else {
+            String mensagem = "Cadastro Não Realizado";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "vermelho");
+        }
+
+        return mv;
+    }
   
     
 

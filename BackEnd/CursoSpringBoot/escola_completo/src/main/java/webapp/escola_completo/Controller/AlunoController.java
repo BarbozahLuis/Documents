@@ -20,7 +20,7 @@ public class AlunoController {
 
     @Autowired
     private AlunoRepository ar;
-
+    
 
     // métodos
     //tela de acesso ao administrador
