@@ -8,8 +8,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import webapp.escola_completo.Model.Administrador;
 import webapp.escola_completo.Model.Aluno;
+import webapp.escola_completo.Model.Professor;
 import webapp.escola_completo.Repository.AdministradorRepository;
 import webapp.escola_completo.Repository.AlunoRepository;
+import webapp.escola_completo.Repository.ProfessorRepository;
 import webapp.escola_completo.Repository.VerificaCadastroAdmRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,9 @@ public class AdministradorController {
 
     @Autowired
     private AlunoRepository al;
+
+    @Autowired
+    private ProfessorRepository pr;
 
     // métodos
     //validando cadastro
@@ -130,7 +135,7 @@ public class AdministradorController {
         return mv;
     }
 
-    //acesso a pagina de cadastro do proefssor pelo login do adm
+    //acesso a pagina de cadastro do professor pelo login do adm
     @GetMapping("/cadastro_professor")
     public ModelAndView acessoPageCadastroProfessor(RedirectAttributes attributes) {
         ModelAndView mv = new ModelAndView("cadastro/cadastro_professor");
@@ -163,30 +168,45 @@ public class AdministradorController {
 
         return mv;
     }
+
     // cadastrar aluno dentro da tela administrador
-    @PostMapping("cadastrar-Aluno")
+    @PostMapping("cadastrar-aluno")
     public ModelAndView cadastroAlunoBD(Aluno aluno) {
 
-        boolean verificaAluno = al.existsById(aluno.getCpf());
-
-        ModelAndView mv = new ModelAndView("login/login-adm");
-
-        if (verificaAluno) {
+        ModelAndView mv = new ModelAndView("interna/interna-adm");
+       
             al.save(aluno);
             String mensagem = "Cadastro Realizado com sucesso";
             System.out.println(mensagem);
             mv.addObject("msg", mensagem);
             mv.addObject("classe", "verde");
-        } else {
-            String mensagem = "Cadastro Não Realizado";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-            mv.addObject("classe", "vermelho");
-        }
+        
 
         return mv;
     }
   
+    //cadastrar professor dentro da tela do administrador
+    @PostMapping("cadastrar-professor")
+    public ModelAndView cadastroProfessorBD(Professor professor) {
+
+        ModelAndView mv = new ModelAndView("interna/interna-adm");
+       
+            pr.save(professor);
+            String mensagem = "Cadastro Realizado com sucesso";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "verde");
+        
+
+        return mv;
+    }
+
+    @PostMapping("pre-cadastro")
+    public String postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return entity;
+    }
     
 
 
