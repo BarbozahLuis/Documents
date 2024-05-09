@@ -201,12 +201,7 @@ public class AdministradorController {
         return mv;
     }
 
-    @PostMapping("pre-cadastro")
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
-    }
+    
     
 
 
