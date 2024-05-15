@@ -1,9 +1,9 @@
-import 'package:exemplo_api/screen.dart';
 import 'package:flutter/material.dart';
 
+import 'screen.dart';
 
-void main(List<String> args) {
-  
+void main(){
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Exemplo API - Previsão de tempo',
+      title: "Exemplo API",
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blue
       ),
-      home: WeatherScreen(),
+      home: WeatherScreen()
     );
   }
 }

@@ -1,81 +1,80 @@
-// Importa o pacote de widgets do Flutter, que contém os widgets para construir interfaces de usuário.
 import 'package:flutter/material.dart';
-
-
-// Importa o serviço WeatherService, que é responsável por obter os dados de previsão do tempo da API.
+import 'package:geolocator/geolocator.dart';
 import 'service.dart';
 
-
-// Classe StatefulWidget que representa o widget de previsão do tempo.
 class WeatherScreen extends StatefulWidget {
-  // Sobrescreve o método createState para criar e retornar uma instância do estado do widget.
+  const WeatherScreen({Key? key}) : super(key: key);
+
   @override
-  _WeatherScreenState createState() => _WeatherScreenState();
+  State<WeatherScreen> createState() => _WeatherScreenState();
 }
 
-
-// Classe que representa o estado do widget de previsão do tempo.
 class _WeatherScreenState extends State<WeatherScreen> {
-  // Instância do serviço WeatherService para obter os dados de previsão do tempo.
   final WeatherService _weatherService = WeatherService(
-    apiKey: '681126f28e7d6fa3a7cfe0da0671e599', // Chave de API para acesso à API de previsão do tempo.
-    baseUrl: 'https://api.openweathermap.org/data/2.5', // URL base da API de previsão do tempo.
+    apiKey: '681126f28e7d6fa3a7cfe0da0671e599',
+    baseUrl: 'https://api.openweathermap.org/data/2.5',
   );
 
+  Map<String, dynamic> _weatherData = {};
+  TextEditingController _cityController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
-  // Mapa que armazenará os dados de previsão do tempo.
-  late Map<String, dynamic> _weatherData;
-
-
-  // Método chamado quando o estado é inicializado.
   @override
   void initState() {
     super.initState();
-    _fetchWeatherData('Rio de Janeiro'); // Chama o método para buscar os dados de previsão do tempo para São Paulo.
+    _weatherData = new Map<String,dynamic>();
   }
 
-
-  // Método assíncrono para buscar os dados de previsão do tempo para uma cidade específica.
   Future<void> _fetchWeatherData(String city) async {
     try {
-      // Obtém os dados de previsão do tempo para a cidade especificada.
       final weatherData = await _weatherService.getWeather(city);
-      // Atualiza o estado do widget com os novos dados de previsão do tempo.
       setState(() {
         _weatherData = weatherData;
       });
     } catch (e) {
-      // Em caso de erro ao buscar os dados de previsão do tempo, exibe uma mensagem de erro no console.
-      print('Error fetching weather data: $e');
+      print(e);
     }
   }
 
+  Future<void> _fetchWeatherLocation() async{
+    try{Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high
+    );
+    final weatherData = await _weatherService.getWeatherByLocation(position.latitude, position.longitude);
+    setState(() {
+      _weatherData = weatherData;
+    });
+    }catch(e){
 
-  // Método responsável por construir a interface de usuário do widget.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Weather Forecast'),
-        // Título da barra de aplicativos.
-      ),
-      body: _weatherData == null
-      // Verifica se os dados de previsão do tempo foram carregados.
-          ? const Center(
-              child: CircularProgressIndicator(),
-              // Exibe um indicador de progresso enquanto os dados estão sendo carregados.
-            )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('City: ${_weatherData['name']}'), // Exibe o nome da cidade.
-                  Text('Temperature: ${_weatherData['main']['temp'] - 273} °C'), // Exibe a temperatura em graus Celsius.
-                  Text(
-                      'Description: ${_weatherData['weather'][0]['description']}'), // Exibe a descrição do clima.
-                ],
-              ),
-            ),
+      appBar: AppBar(title: const Text("Exemplo Weather-API")),
+      body: Padding(
+        padding: EdgeInsets.all(12),
+        child: FutureBuilder(
+          future: _fetchWeatherLocation(),
+          builder: (context,snapshot){
+            if(_weatherData.isEmpty){
+              return Center(child: CircularProgressIndicator());
+            }else{
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('City: ${_weatherData['name']}'),
+                    Text('Temperature: ${(_weatherData['main']['temp']).toInt - 273}°C'),
+                    Text('Description: ${_weatherData['weather'][0]['description']}')
+                  ],
+                ),
+              );
+            }
+          },
+        ),
+      )
     );
   }
 }
