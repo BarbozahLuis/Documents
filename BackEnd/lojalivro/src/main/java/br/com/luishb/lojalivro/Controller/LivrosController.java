@@ -3,6 +3,7 @@ package br.com.luishb.lojalivro.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Controller;
 
 import br.com.luishb.lojalivro.Model.Livro;
@@ -24,7 +25,7 @@ public class LivrosController {
     @GetMapping("/livros")
     public ModelAndView getLivros() {
         ModelAndView mv = new ModelAndView("livros");
-        mv.addObject("livros", livroRepository.findAll());
+        mv.addObject("livros", ListCrudRepository.findAll());
 
         return mv;
     }
