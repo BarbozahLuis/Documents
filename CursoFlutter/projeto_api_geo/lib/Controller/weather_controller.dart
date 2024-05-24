@@ -29,6 +29,14 @@ class WeatherController {
       print(e);
     }
   }
-
-  findCity(String city) {}
+  Future<bool> findCity(String city) async{
+    try{
+      Weather weather = Weather.fromJson(await _service.getWeather(city));
+      weatherList.add(weather);
+      return true;
+    }catch(e){
+      print(e);
+      return false;
+    }
+  }
 }
