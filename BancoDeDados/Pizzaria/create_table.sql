@@ -263,5 +263,234 @@ WHERE NOME = 'Camila Ribeiro';
 SELECT * FROM FUNCIONARIO
 
 -- exercicio 9 
-ALTER TABLE PIZZAS
-ADD COLUMN TAMANHO VARCHAR(50);
+-- Alterar tabela pizzas para adicionar coluna tamanho
+ALTER TABLE pizzas ADD COLUMN tamanho VARCHAR(50);
+
+-- Atualizar entradas existentes com tamanhos fictícios
+UPDATE pizzas 
+SET tamanho = CASE
+    WHEN nome = 'Calabresa' THEN 'Média'
+    WHEN nome = 'Quatro Queijos' THEN 'Média'
+    WHEN nome = 'Frango com Catupiry' THEN 'Média'
+    WHEN nome = 'Vegetariana' THEN 'Média'
+    ELSE 'Média'
+END;
+
+-- Consulta para listar itens de pedidos com tamanhos das pizzas
+SELECT 
+    pedido.id_pedido,
+    pizzas.nome AS nome_pizza,
+    pizzas.tamanho AS tamanho_pizza,
+    pizzas.preco AS preco_pizza,
+    pizzas.ingredientes AS ingredientes_pizza,
+    pedido.data_pedido
+FROM 
+    pedido
+JOIN 
+    pizzas ON pedido.id_pizza = pizzas.id_pizza;
+
+
+-- exercicio 10
+
+CREATE TABLE IF NOT EXISTS promocoes (
+    id_promocao SERIAL PRIMARY KEY,
+    id_pizza INT NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    desconto DECIMAL(5,2) NOT NULL,
+    CONSTRAINT fk_pizza_promocao FOREIGN KEY (id_pizza) REFERENCES pizzas(id_pizza)
+);
+
+INSERT INTO promocoes (id_pizza, descricao, desconto) VALUES 
+(1, 'Promoção de Calabresa - 10% OFF', 10.00),
+(2, 'Promoção de Margherita - 10% OFF', 10.00),
+(3, 'Promoção de Quatro Queijos - 10% OFF', 10.00),
+(4, 'Promoção de Portuguesa - 10% OFF', 10.00),
+(5, 'Promoção de Frango com Catupiry - 10% OFF', 10.00),
+(6, 'Promoção de Vegetariana - 10% OFF', 10.00),
+(7, 'Promoção de Pepperoni - 10% OFF', 10.00);
+
+SELECT 
+    promocoes.id_promocao,
+    pizzas.nome AS nome_pizza,
+    pizzas.preco AS preco_pizza,
+    pizzas.ingredientes AS ingredientes_pizza,
+    pizzas.tamanho AS tamanho_pizza,
+    promocoes.descricao,
+    promocoes.desconto
+FROM 
+    promocoes
+JOIN 
+    pizzas ON promocoes.id_pizza = pizzas.id_pizza;
+
+
+
+-- segunda parte
+--exercicio 1
+
+SELECT DISTINCT
+    contatos.id_contato,
+    contatos.nome AS nome_cliente,
+    contatos.email AS email_cliente,
+    contatos.cel AS celular_cliente,
+    contatos.pizza AS pizza_preferida,
+    contatos.cadastro AS data_cadastro
+FROM 
+    contatos
+JOIN 
+    pedido ON contatos.id_contato = pedido.id_contato;
+
+
+--exercicio 2
+
+SELECT 
+    pedido.id_pedido,
+    pedido.data_pedido,
+    contatos.nome AS nome_cliente,
+    contatos.email AS email_cliente,
+    contatos.cel AS celular_cliente,
+    pizzas.nome AS nome_pizza,
+    pizzas.preco AS preco_pizza,
+    pizzas.ingredientes AS ingredientes_pizza,
+    entregas.situacao AS status_entrega
+FROM 
+    pedido
+JOIN 
+    contatos ON pedido.id_contato = contatos.id_contato
+JOIN 
+    pizzas ON pedido.id_pizza = pizzas.id_pizza
+JOIN 
+    entregas ON pedido.id_entregas = entregas.id_entregas
+WHERE 
+    pedido.data_pedido BETWEEN '2024-05-01' AND '2024-05-27';
+
+
+--exercicio 3
+SELECT 
+    pedido.id_pedido,
+    contatos.nome AS nome_cliente,
+    contatos.email AS email_cliente,
+    contatos.cel AS celular_cliente,
+    pizzas.nome AS nome_pizza,
+    pizzas.preco AS preco_pizza,
+    pizzas.ingredientes AS ingredientes_pizza,
+    pedido.data_pedido,
+    entregas.situacao AS status_entrega
+FROM 
+    pedido
+JOIN 
+    contatos ON pedido.id_contato = contatos.id_contato
+JOIN 
+    pizzas ON pedido.id_pizza = pizzas.id_pizza
+JOIN 
+    entregas ON pedido.id_entregas = entregas.id_entregas
+WHERE 
+    pedido.id_pedido = 1;
+
+
+--exercicio 4
+SELECT 
+    contatos.nome AS nome_cliente,
+    contatos.email AS email_cliente,
+    contatos.cel AS celular_cliente,
+    SUM(pizzas.preco) AS total_gasto
+FROM 
+    pedido
+JOIN 
+    contatos ON pedido.id_contato = contatos.id_contato
+JOIN 
+    pizzas ON pedido.id_pizza = pizzas.id_pizza
+WHERE 
+    contatos.id_contato = 1
+GROUP BY 
+    contatos.nome, contatos.email, contatos.cel;
+
+--exercicio 5
+SELECT 
+    PI.NOME AS NOME_PIZZA,
+    COUNT(*) AS QUANTIDADE_PEDIDOS
+FROM 
+    PEDIDO P
+JOIN 
+    PIZZAS PI ON P.ID_PIZZA = PI.ID_PIZZA
+GROUP BY 
+    PI.NOME
+ORDER BY 
+    QUANTIDADE_PEDIDOS DESC;
+
+--exercicio 6
+SELECT 
+    NOME AS NOME_PIZZA,
+    PRECO,
+    INGREDIENTES
+FROM 
+    PIZZAS
+WHERE 
+    NOME = 'Calabresa';
+
+--exercicio 7
+SELECT 
+    funcionario.id_funcionario,
+    funcionario.nome AS nome_funcionario,
+    funcionario.area_trabalho,
+    supervisores.nome AS nome_supervisor
+FROM 
+    funcionario
+LEFT JOIN 
+    supervisores ON funcionario.id_supervisor = supervisores.id_supervisor;
+
+--exercicio 8
+CREATE TABLE IF NOT EXISTS horarios_funcionamento (
+    id SERIAL PRIMARY KEY,
+    dia_semana VARCHAR(20) NOT NULL,
+    hora_abertura TIME NOT NULL,
+    hora_fechamento TIME NOT NULL
+);
+
+-- Inserção de dados de exemplo
+INSERT INTO horarios_funcionamento (dia_semana, hora_abertura, hora_fechamento) VALUES
+('Segunda-feira', '10:00', '22:00'),
+('Terça-feira', '10:00', '22:00'),
+('Quarta-feira', '10:00', '22:00'),
+('Quinta-feira', '10:00', '22:00'),
+('Sexta-feira', '10:00', '23:00'),
+('Sábado', '11:00', '23:00'),
+('Domingo', '11:00', '22:00');
+
+SELECT 
+    dia_semana,
+    hora_abertura,
+    hora_fechamento
+FROM 
+    horarios_funcionamento;
+
+--exercicio 9
+SELECT 
+    pedido.id_pedido,
+    contatos.nome AS nome_cliente,
+    contatos.email AS email_cliente,
+    contatos.cel AS celular_cliente,
+    pizzas.nome AS pizza_pedida,
+    entregas.situacao AS status_entrega
+FROM 
+    pedido
+JOIN 
+    contatos ON pedido.id_contato = contatos.id_contato
+JOIN 
+    pizzas ON pedido.id_pizza = pizzas.id_pizza
+JOIN 
+    entregas ON pedido.id_entregas = entregas.id_entregas
+WHERE 
+    entregas.situacao = 'Em andamento';
+
+--exercicio 10
+ALTER TABLE ENTREGAS
+ADD COLUMN DATA_ENTREGA TIMESTAMP;
+
+SELECT 
+    AVG(EXTRACT(EPOCH FROM (E.DATA_ENTREGA - P.DATA_PEDIDO)) / 60) AS TEMPO_MEDIO_ESPERA_MINUTOS
+FROM 
+    PEDIDO P
+JOIN 
+    ENTREGAS E ON P.ID_ENTREGAS = E.ID_ENTREGAS
+WHERE 
+    E.DATA_ENTREGA IS NOT NULL;
