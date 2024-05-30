@@ -1,0 +1,22 @@
+MVC
+    -Model
+        -ativo patrimonial
+            -id
+            -nome
+            -ambiente
+        -Ambiente - salas
+            -id
+            -nome
+            -responsavel
+        -responsavel
+            -id
+            -nome
+    
+    -repository
+        -ativoPatrimonialRepository (CRUD)
+        -ambienteRepository (CRUD)
+        -responsavel(CRUD)
+    -controller
+        -AtivoPatrimonialController
+        -AmbienteCOntroller
+        -ResponsavelController

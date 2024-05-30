@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class City {
   //atributos
   final String cityName;
-  final bool favoriteCities;
+  final int favoriteCities;
 
   City({required this.cityName, 
   required this.favoriteCities});
@@ -13,10 +13,10 @@ class City {
     'favoriteCities': favoriteCities
   };
 
-  factory City.fromMap(Map<String, dynamic> map){
+  factory City.fromMap(Map<String,dynamic> map ) {
     return City(
       cityName: map['cityname'],
-      favoriteCities: map['favoritecities']
+      favoriteCities:map['favoritecities'],
     );
   }
 }
