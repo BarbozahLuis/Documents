@@ -1,25 +1,35 @@
 import 'dart:convert';
+
+import 'package:projeto_apirest/model/produto.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:projeto_apirest/model/produtos_model.dart';
+class ProdutosController {
+  List<Produto> _listProdutos = [];
+  List<Produto> get listProdutos => _listProdutos;
 
-class ProdutosController{
-  List<Produtos> _produtos = [];
-
-  List<Produtos> get produtos{
-    return _produtos;
+  //getProdutofromJson
+  Future<List<Produto>> getProdutos() async {
+    final response = await http.get(Uri.parse('http://10.109.204.24:3000/produtos'));
+    if (response.statusCode == 200) {
+      final List<dynamic> _result = json.decode(response.body);
+      _listProdutos = _result.map((e) => Produto.fromJson(e)).toList();
+      return _listProdutos;
+    } else {
+      throw Exception('Não foi possível conectar com o servidor');
+    }
   }
 
-  final String url = "http://10.109.204.20/produtos/";
-
-
-  Future<List<Produtos>> getProdutos() async{
-    var response = await http.get(Uri.parse(url));
-    if(response.statusCode == 200){
-      List<Map<String,dynamic>> produtos = json.decode(response.body);
-      _produtos = produtos.map((prod) => Produtos.fromJson(prod)).toList();
-      return _produtos;
+  //postProdutoToJson
+  Future<String> postProduto(Produto produto) async {
+    final response = await http.post(
+        Uri.parse('http://10.109.204.24:3000/produtos'),
+        body: json.encode(produto.toJson()),
+        headers: {'Content-Type': 'application/json'}
+        );
+    if (response.statusCode == 201) {
+      return response.body;
+    } else {
+      throw Exception('Não foi possível conectar com o servidor');
     }
-    return [];
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869734339646",
+    "project_id": "teste-firebase-noite23",
+    "storage_bucket": "teste-firebase-noite23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869734339646:android:b414bdf660ec1183f22d6f",
+        "android_client_info": {
+          "package_name": "br.com.luis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869734339646-o5o5n0ikupj0e0aqj7oeofogfb7lrshi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbQ6m-Dx8GEMeFvkWQjNpkH1_eedPDBWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869734339646-o5o5n0ikupj0e0aqj7oeofogfb7lrshi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
