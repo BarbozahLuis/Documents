@@ -61,13 +61,16 @@ echo <<<EOT
 	<body>
     <nav class="navtop">
     	<div>
-    		<h1> Pizzaria Lebron James </h1>
+    		<h1> Pizzaria Lebron</h1>
             <a href="index.php"><i class="fas fa-home"></i>Inicio</a>
     		<a href="read.php"><i class="fas fa-shopping-basket"></i>Pedidos</a>
             <a href="ler_entregas.php"><i class="fa-solid fa-motorcycle"></i>Entregas</a>
             <a href="pesquisar.php"><i class="fa-solid fa-magnifying-glass"></i>Pesquisar</a>
             <a href="processar_pedido.php"><i class="fa-solid fa-cart-shopping"></i>Comprar</a>
             <a href="promocao.php"><i class="fa-solid fa-cart-shopping"></i>Promoções</a>
+            <a href="funcionarios_pizza.php"><i class="fa-solid fa-cart-shopping"></i>Funcionários</a>
+            <a href="cardapio.php"><i class="fa-solid fa-cart-shopping"></i>Cardapio</a>
+            <a href="horario_funcionamento.php"><i class="fa-solid fa-cart-shopping"></i>Horarios</a>
     	</div>
     </nav>
 EOT;
