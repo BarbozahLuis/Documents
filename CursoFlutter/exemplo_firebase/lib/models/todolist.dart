@@ -12,7 +12,7 @@ class Todolist {
     return {
       'id': id,
       'titulo': titulo,
-      'userId': userId,
+      'userid': userId,
       'timestamp': timestamp
     };
   }
