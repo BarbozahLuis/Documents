@@ -17,11 +17,11 @@ class _TodolistScreenState extends State<TodolistScreen> {
   final AuthService _service =AuthService();
   final TodolistController _controller =TodolistController();
   final _tituloController = TextEditingController();
+  bool _isList = false;
 
   Future<void> _getList() async{
     try {
       await _controller.fetchList(widget.user.uid);
-      setState(() {});
     } catch (e) {
       print(e.toString());
     }
@@ -43,7 +43,7 @@ class _TodolistScreenState extends State<TodolistScreen> {
             })]
       ),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Center(
           child: Column(
             children: [
@@ -58,10 +58,11 @@ class _TodolistScreenState extends State<TodolistScreen> {
                           return ListTile(
                             title: Text(_controller.list[index].titulo),
                             trailing: IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               onPressed: () async {
                                 await _controller.delete(_controller.list[index].id);
                                 _getList();
+                                setState(() {});
                               },
                             ),
                           );
@@ -70,7 +71,7 @@ class _TodolistScreenState extends State<TodolistScreen> {
                     }else if(snapshot.hasError){
                       return Text(snapshot.error.toString());
                     }else{
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -80,12 +81,13 @@ class _TodolistScreenState extends State<TodolistScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
         onPressed: (){
           showDialog(
             context: context, 
             builder: (context){
               return AlertDialog(
-                title: Text("Nova Tarefa"),
+                title: const Text("Nova Tarefa"),
                 content: TextFormField(
                   controller: _tituloController,
                   decoration: InputDecoration(hintText: "Digite a tarefa"),
@@ -109,6 +111,7 @@ class _TodolistScreenState extends State<TodolistScreen> {
                       );
                       _controller.add(add);
                       _getList();
+                      setState(() {});
                     })]);
             });
         })
