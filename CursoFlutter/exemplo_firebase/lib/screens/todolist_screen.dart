@@ -7,19 +7,20 @@ import 'package:flutter/material.dart';
 
 class TodolistScreen extends StatefulWidget {
   final User user;
-  const TodolistScreen({super.key, required this.user});
+  
+  const TodolistScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<TodolistScreen> createState() => _TodolistScreenState();
 }
 
 class _TodolistScreenState extends State<TodolistScreen> {
-  final AuthService _service =AuthService();
-  final TodolistController _controller =TodolistController();
+  final AuthService _service = AuthService();
+  final TodolistController _controller = TodolistController();
   final _tituloController = TextEditingController();
-  bool _isList = false;
-
-  Future<void> _getList() async{
+  
+  // Método para carregar a lista de tarefas
+  Future<void> _getList() async {
     try {
       await _controller.fetchList(widget.user.uid);
     } catch (e) {
@@ -27,20 +28,21 @@ class _TodolistScreenState extends State<TodolistScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900], // Cor de fundo da tela
       appBar: AppBar(
-        title: const Text('Todo List Firebase'),
+        title: const Text('Lista de tarefas firebase'),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              //chamar o logout
               await _service.logoutUsuario();
               Navigator.pushReplacementNamed(context, '/home');
-            })]
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
@@ -49,72 +51,155 @@ class _TodolistScreenState extends State<TodolistScreen> {
             children: [
               Expanded(
                 child: FutureBuilder(
-                  future: _getList(), 
-                  builder: (context,snapshot){
-                    if(_controller.list.isNotEmpty){
+                  future: _getList(),
+                  builder: (context, snapshot) {
+                    if (_controller.list.isNotEmpty) {
                       return ListView.builder(
                         itemCount: _controller.list.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(_controller.list[index].titulo),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                await _controller.delete(_controller.list[index].id);
-                                _getList();
-                                setState(() {});
-                              },
+                          return Card(
+                            elevation: 2,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: ListTile(
+                              title: Text(
+                                _controller.list[index].titulo,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () {
+                                      _showEditDialog(_controller.list[index]);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () async {
+                                      await _controller.delete(_controller.list[index].id);
+                                      _getList();
+                                      setState(() {});
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
                       );
-                    }else if(snapshot.hasError){
+                    } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
-                    }else{
+                    } else {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: Text(
+                  'Adicione uma tarefa',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Cor do texto
+                  ),
+                ),
                       );
                     }
-                  }),),
+                  },
+                ),
+              ),
             ],
-          )
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: (){
+        onPressed: () {
           showDialog(
-            context: context, 
-            builder: (context){
+            context: context,
+            builder: (context) {
               return AlertDialog(
                 title: const Text("Nova Tarefa"),
                 content: TextFormField(
                   controller: _tituloController,
-                  decoration: InputDecoration(hintText: "Digite a tarefa"),
+                  decoration: const InputDecoration(hintText: "Digite a tarefa"),
                 ),
                 actions: [
                   TextButton(
-                    child: Text("Cancelar"),
-                    onPressed: (){
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Color.fromARGB(255, 255, 255, 255), backgroundColor: Colors.green, // foreground/text
+                    ),
+                    child: const Text("Cancelar"),
+                    onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  TextButton(
-                    child: Text("Salvar"),
-                    onPressed: (){
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Color.fromARGB(255, 255, 255, 255), backgroundColor: Colors.green, // foreground/text
+                    ),
+                    child: const Text("Salvar"),
+                    onPressed: () {
                       Navigator.of(context).pop();
                       Todolist add = Todolist(
-                        id:(_controller.list.length+1).toString(),
+                        id: _controller.list.length.toString(),
                         titulo: _tituloController.text,
                         userId: widget.user.uid,
-                        timestamp: DateTime.now()
+                        timestamp: DateTime.now(),
                       );
                       _controller.add(add);
                       _getList();
                       setState(() {});
-                    })]);
-            });
-        })
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void _showEditDialog(Todolist task) {
+    _tituloController.text = task.titulo;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Editar Tarefa"),
+          content: TextFormField(
+            controller: _tituloController,
+            decoration: const InputDecoration(hintText: "Digite a tarefa"),
+          ),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground/text
+              ),
+              child: const Text("Salvar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Todolist edit = Todolist(
+                  id: task.id,
+                  titulo: _tituloController.text,
+                  userId: task.userId,
+                  timestamp: DateTime.now(),
+                );
+                _controller.edit(edit);
+                _getList();
+                setState(() {});
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

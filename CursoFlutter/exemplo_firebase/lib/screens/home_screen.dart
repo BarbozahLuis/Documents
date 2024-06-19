@@ -1,47 +1,57 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //dois botoes (login e registro)
+      backgroundColor: Colors.blueGrey[900], // Cor de fundo da tela
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Login',
+            Text(
+              'Bem-vindo!',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 36,
                 fontWeight: FontWeight.bold,
+                color: Colors.white, // Cor do texto
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: const Text('Login'),
+              child: Text(
+                'Login',
+                style: TextStyle(fontSize: 20),
+              ),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.green, // Cor do texto do botão
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16), // Tamanho do botão
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Borda arredondada
+                ),
+              ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
+            SizedBox(height: 20),
+            OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
               },
-              child: const Text('Registro'),
+              child: Text(
+                'Registro',
+                style: TextStyle(fontSize: 20, color: Colors.white), // Cor do texto do botão
+              ),
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.white), // Cor da borda
+                padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16), // Tamanho do botão
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Borda arredondada
+                ),
+              ),
             ),
           ],
         ),

@@ -1,15 +1,13 @@
 import 'package:exemplo_firebase/screens/todolist_screen.dart';
 import 'package:exemplo_firebase/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -21,39 +19,85 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
+      backgroundColor: Colors.blueGrey[900], // Cor de fundo da tela
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: Form(
-              key: _formKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(hintText: 'Email'),
-                        validator: (value) {}),
-                    TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(hintText: 'Senha'),
-                        validator: (value) {}),
-                    const SizedBox(
-                      height: 20,
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.white, // Cor do texto
+              ),
+            ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailController,
+                  style: TextStyle(color: Colors.white), // Cor do texto
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.grey[400]), // Cor do texto de dica
+                    prefixIcon: Icon(Icons.email, color: Colors.white), // Ícone do email
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white), // Cor da borda quando não está focado
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          _acessarTodoList();
-                        },
-                        child: const Text("Login"))
-                  ]))),
-    ));
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white), // Cor da borda quando está focado
+                    ),
+                  ),
+                  validator: (value) {},
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: _passwordController,
+                  style: TextStyle(color: Colors.white), // Cor do texto
+                  obscureText: true, // Texto escondido para senha
+                  decoration: InputDecoration(
+                    hintText: 'Senha',
+                    hintStyle: TextStyle(color: Colors.grey[400]), // Cor do texto de dica
+                    prefixIcon: Icon(Icons.lock, color: Colors.white), // Ícone da senha
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white), // Cor da borda quando não está focado
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white), // Cor da borda quando está focado
+                    ),
+                  ),
+                  validator: (value) {},
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _acessarTodoList();
+                  },
+                  child: Text(
+                    "Login",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16), backgroundColor: Colors.green, // Tamanho do botão
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Cor de fundo do botão
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<User?> _loginUser() async {
     if (_formKey.currentState!.validate()) {
       return await _auth.loginUsuario(
           _emailController.text, _passwordController.text);
-    }else{
+    } else {
       return null;
     }
   }
@@ -61,13 +105,18 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _acessarTodoList() async {
     User? user = await _loginUser();
     if (user != null) {
-      print("ok");
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => TodolistScreen(user: user)));
-    }else{
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => TodolistScreen(user: user)),
+      );
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Usuário ou senha inválidos"),
+        SnackBar(
+          content: Text(
+            "Usuário ou senha inválidos",
+            style: TextStyle(color: Colors.white), // Cor do texto
+          ),
+          backgroundColor: Colors.red, // Cor de fundo do SnackBar
         ),
       );
       _emailController.clear();

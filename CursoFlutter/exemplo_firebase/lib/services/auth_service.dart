@@ -40,4 +40,6 @@ class AuthService {
     }
   }
 
+  checkIfEmailInUse(String text) {}
+
 }

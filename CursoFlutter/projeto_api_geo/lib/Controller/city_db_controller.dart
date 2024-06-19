@@ -15,8 +15,14 @@ class CityDbController {
     _cities = maps.map<City>((e) => City.fromMap(e)).toList();
     return _cities;
   }
-  //addCities
+  //adicionar tarefas
   Future<void> addCities(City city) async{
     _dbService.insertCity(city);
+  }
+
+// Método para deletar uma cidade
+  Future<void> deleteCity(City city) async {
+    await _dbService.deleteCity(city.cityName);
+    _cities.remove(city); // Remove a cidade da lista local
   }
 }
