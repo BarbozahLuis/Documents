@@ -77,6 +77,7 @@ class _TodolistScreenState extends State<TodolistScreen> {
                                       _showEditDialog(_controller.list[index]);
                                     },
                                   ),
+                                  //delete
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () async {
@@ -148,6 +149,7 @@ class _TodolistScreenState extends State<TodolistScreen> {
                         timestamp: DateTime.now(),
                       );
                       _controller.add(add);
+                      _tituloController.clear();
                       _getList();
                       setState(() {});
                     },
